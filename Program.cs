@@ -9,6 +9,7 @@ builder.Services.AddControllers();
 
 //Dependency injection
 builder.Services.AddSingleton<IValidationService, ValidationService>();
+builder.Services.AddSingleton<IMovementService, MovementService>();
 
 var app = builder.Build();
 

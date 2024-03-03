@@ -9,22 +9,24 @@ namespace MarsRover.Controllers
     public class CommandsController : ControllerBase
     {
         private readonly IValidationService _validationService;
+        private readonly IMovementService _movementService;
 
-        public CommandsController(IValidationService validationService)
+        public CommandsController(IValidationService validationService, IMovementService movementService)
         {
             _validationService = validationService;
+            _movementService = movementService;
         }
 
         [HttpPost]
         public ActionResult<string> Post(Commands commands)
         {
-            if(!_validationService.ValidateInput(commands))
+            if (!_validationService.ValidateInput(commands))
             {
                 return new BadRequestObjectResult("Incorrect command list passed. Please try again.");
             }
 
-            //continue
-            return new OkObjectResult("Commands accepted");
+            string endingPosition = _movementService.HandleMovement(commands);
+            return new OkObjectResult(endingPosition);
         }
     }
 }
