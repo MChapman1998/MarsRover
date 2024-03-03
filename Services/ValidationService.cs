@@ -9,6 +9,11 @@ namespace MarsRover.Services
     {
         public bool ValidateInput(Commands commands)
         {
+            if(commands.commands.Length > 5)
+            {
+                return false;
+            }
+
             foreach (var command in commands.commands)
             {
                 if (!Regex.IsMatch(command, Constants.MovementAmountRegex) && !Constants.Directions.Contains(command.ToLower()))
