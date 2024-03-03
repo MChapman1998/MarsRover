@@ -7,6 +7,8 @@ namespace MarsRover.Services
 {
     public class MovementService : IMovementService
     {
+        private bool perimeterReached = false;
+
         public string HandleMovement(Commands commands)
         {
             foreach (var command in commands.commands)
@@ -18,6 +20,11 @@ namespace MarsRover.Services
                 else
                 {
                     RoverLocation.RoverInstance.CurrentDirection = ChangeDirection(command);
+                }
+
+                if(perimeterReached)
+                {
+                    break;
                 }
             }
 
@@ -39,7 +46,6 @@ namespace MarsRover.Services
 
         private int ChangeLocation(string movementAmount)
         {
-            //edge cases will come into play here
             int movementNumber = int.Parse(movementAmount[..^1]);
             switch (RoverLocation.RoverInstance.CurrentDirection)
             {
@@ -47,6 +53,7 @@ namespace MarsRover.Services
                     int proposedNorthMovement = RoverLocation.RoverInstance.CurrentLocation - (100 * movementNumber);
                     if (proposedNorthMovement <= 0)
                     {
+                        perimeterReached = true;
                         while(RoverLocation.RoverInstance.CurrentLocation > 100)
                         {
                             RoverLocation.RoverInstance.CurrentLocation -= 100;
@@ -58,6 +65,7 @@ namespace MarsRover.Services
                     int proposedSouthMovement = (100 * movementNumber) + RoverLocation.RoverInstance.CurrentLocation;
                     if (proposedSouthMovement > 10000)
                     {
+                        perimeterReached = true;
                         while (RoverLocation.RoverInstance.CurrentLocation < 9000)
                         {
                             RoverLocation.RoverInstance.CurrentLocation += 100;
@@ -71,6 +79,7 @@ namespace MarsRover.Services
 
                     if (proposedEastMovement > ((Math.Round(currentEastLocation / 100d, 0) * 100) + 100))
                     {
+                        perimeterReached = true;
                         while (RoverLocation.RoverInstance.CurrentLocation < (Math.Round(currentEastLocation / 100d, 0) * 100) + 100)
                         {
                             RoverLocation.RoverInstance.CurrentLocation += 1;
@@ -85,6 +94,7 @@ namespace MarsRover.Services
 
                     if (proposedWestMovement < (Math.Round(currentWestLocation / 100d, 0) * 100) + 1)
                     {
+                        perimeterReached = true;
                         while (RoverLocation.RoverInstance.CurrentLocation > ((Math.Round(currentWestLocation / 100d, 0) * 100) + 1))
                         {
                             RoverLocation.RoverInstance.CurrentLocation -= 1;
