@@ -9,7 +9,7 @@ namespace MarsRover.Services
     {
         public bool ValidateInput(Commands commands)
         {
-            if(commands.commands.Length > 5)
+            if (commands.commands.Length > 5)
             {
                 return false;
             }

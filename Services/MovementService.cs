@@ -22,7 +22,7 @@ namespace MarsRover.Services
                     RoverLocation.RoverInstance.CurrentDirection = ChangeDirection(command);
                 }
 
-                if(perimeterReached)
+                if (perimeterReached)
                 {
                     break;
                 }
@@ -54,7 +54,7 @@ namespace MarsRover.Services
                     if (proposedNorthMovement <= 0)
                     {
                         perimeterReached = true;
-                        while(RoverLocation.RoverInstance.CurrentLocation > 100)
+                        while (RoverLocation.RoverInstance.CurrentLocation > 100)
                         {
                             RoverLocation.RoverInstance.CurrentLocation -= 100;
                         }
