@@ -9,11 +9,12 @@ namespace MarsRover.Services
         {
             int proposedWestMovement = RoverLocation.RoverInstance.CurrentLocation - movementNumber;
             double currentWestLocation = RoverLocation.RoverInstance.CurrentLocation;
+            int leftMostRowValue = (int)((currentWestLocation - 1d) / 100d) * 100 + 1;
 
-            if (proposedWestMovement < (Math.Round((currentWestLocation - 51d) / 100d, 0) * 100) + 1)
+            if (proposedWestMovement < leftMostRowValue)
             {
                 perimeterReached = true;
-                while (RoverLocation.RoverInstance.CurrentLocation > ((Math.Round(currentWestLocation / 100d, 0) * 100) + 1))
+                while (RoverLocation.RoverInstance.CurrentLocation > leftMostRowValue)
                 {
                     RoverLocation.RoverInstance.CurrentLocation -= 1;
                 }

@@ -15,6 +15,7 @@ namespace MarsRover.Services
 
         public string HandleMovement(Commands commands)
         {
+            perimeterReached = false;
             foreach (var command in commands.commands)
             {
                 if (Regex.IsMatch(command, Constants.MovementAmountRegex))

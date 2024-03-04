@@ -11,7 +11,7 @@ namespace MarsRover.Services
             if (proposedSouthMovement > 10000)
             {
                 perimeterReached = true;
-                while (RoverLocation.RoverInstance.CurrentLocation < 9000)
+                while (RoverLocation.RoverInstance.CurrentLocation < 9901)
                 {
                     RoverLocation.RoverInstance.CurrentLocation += 100;
                 }
