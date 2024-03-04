@@ -10,6 +10,10 @@ builder.Services.AddControllers();
 //Dependency injection
 builder.Services.AddSingleton<IValidationService, ValidationService>();
 builder.Services.AddSingleton<IMovementService, MovementService>();
+builder.Services.AddSingleton<INorthMovement, NorthMovement>();
+builder.Services.AddSingleton<ISouthMovement, SouthMovement>();
+builder.Services.AddSingleton<IWestMovement, WestMovement>();
+builder.Services.AddSingleton<IEastMovement, EastMovement>();
 
 var app = builder.Build();
 

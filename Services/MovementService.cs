@@ -5,8 +5,12 @@ using System.Text.RegularExpressions;
 
 namespace MarsRover.Services
 {
-    public class MovementService : IMovementService
+    public class MovementService(INorthMovement northMovement, ISouthMovement southMovement, IEastMovement eastMovement, IWestMovement westMovement) : IMovementService
     {
+        private readonly INorthMovement _northMovement = northMovement;
+        private readonly ISouthMovement _southMovement = southMovement;
+        private readonly IEastMovement _eastMovement = eastMovement;
+        private readonly IWestMovement _westMovement = westMovement;
         private bool perimeterReached = false;
 
         public string HandleMovement(Commands commands)
@@ -28,10 +32,10 @@ namespace MarsRover.Services
                 }
             }
 
-            return $"{RoverLocation.RoverInstance.CurrentLocation} {RoverLocation.RoverInstance.CurrentDirection}";
+            return $"{RoverLocation.RoverInstance?.CurrentLocation} {RoverLocation.RoverInstance?.CurrentDirection}";
         }
 
-        private string ChangeDirection(string newDirection)
+        private string? ChangeDirection(string newDirection)
         {
             switch (newDirection.ToLower())
             {
@@ -40,68 +44,23 @@ namespace MarsRover.Services
                 case "right":
                     return Constants.RightDirectionChange[RoverLocation.RoverInstance.CurrentDirection];
                 default:
-                    return RoverLocation.RoverInstance.CurrentDirection;
+                    return RoverLocation.RoverInstance?.CurrentDirection;
             }
         }
 
         private int ChangeLocation(string movementAmount)
         {
             int movementNumber = int.Parse(movementAmount[..^1]);
-            switch (RoverLocation.RoverInstance.CurrentDirection)
+            switch (RoverLocation.RoverInstance?.CurrentDirection)
             {
                 case "north":
-                    int proposedNorthMovement = RoverLocation.RoverInstance.CurrentLocation - (100 * movementNumber);
-                    if (proposedNorthMovement <= 0)
-                    {
-                        perimeterReached = true;
-                        while (RoverLocation.RoverInstance.CurrentLocation > 100)
-                        {
-                            RoverLocation.RoverInstance.CurrentLocation -= 100;
-                        }
-                        return RoverLocation.RoverInstance.CurrentLocation;
-                    }
-                    return RoverLocation.RoverInstance.CurrentLocation - (100 * movementNumber);
+                    return _northMovement.MoveNorth(ref perimeterReached, movementNumber);
                 case "south":
-                    int proposedSouthMovement = (100 * movementNumber) + RoverLocation.RoverInstance.CurrentLocation;
-                    if (proposedSouthMovement > 10000)
-                    {
-                        perimeterReached = true;
-                        while (RoverLocation.RoverInstance.CurrentLocation < 9000)
-                        {
-                            RoverLocation.RoverInstance.CurrentLocation += 100;
-                        }
-                        return RoverLocation.RoverInstance.CurrentLocation;
-                    }
-                    return (100 * movementNumber) + RoverLocation.RoverInstance.CurrentLocation;
+                    return _southMovement.MoveSouth(ref perimeterReached, movementNumber);
                 case "east":
-                    int proposedEastMovement = RoverLocation.RoverInstance.CurrentLocation + movementNumber;
-                    double currentEastLocation = RoverLocation.RoverInstance.CurrentLocation;
-
-                    if (proposedEastMovement > (Math.Round((currentEastLocation + 50d) / 100d, 0) * 100))
-                    {
-                        perimeterReached = true;
-                        while (RoverLocation.RoverInstance.CurrentLocation < (Math.Round(currentEastLocation / 100d, 0) * 100) + 100)
-                        {
-                            RoverLocation.RoverInstance.CurrentLocation += 1;
-                        }
-                        return RoverLocation.RoverInstance.CurrentLocation;
-                    }
-
-                    return RoverLocation.RoverInstance.CurrentLocation += movementNumber;
+                    return _eastMovement.MoveEast(ref perimeterReached, movementNumber);
                 case "west":
-                    int proposedWestMovement = RoverLocation.RoverInstance.CurrentLocation - movementNumber;
-                    double currentWestLocation = RoverLocation.RoverInstance.CurrentLocation;
-
-                    if (proposedWestMovement < (Math.Round((currentWestLocation - 51d) / 100d, 0) * 100) + 1)
-                    {
-                        perimeterReached = true;
-                        while (RoverLocation.RoverInstance.CurrentLocation > ((Math.Round(currentWestLocation / 100d, 0) * 100) + 1))
-                        {
-                            RoverLocation.RoverInstance.CurrentLocation -= 1;
-                        }
-                        return RoverLocation.RoverInstance.CurrentLocation;
-                    }
-                    return RoverLocation.RoverInstance.CurrentLocation -= movementNumber;
+                    return _westMovement.MoveWest(ref perimeterReached, movementNumber);
                 default:
                     return 0;
             }
