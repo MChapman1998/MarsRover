@@ -1,0 +1,62 @@
+{
+	"info": {
+		"_postman_id": "5f18fc26-e0fd-498a-8268-db8c698a6522",
+		"name": "Mars Rover",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11567006"
+	},
+	"item": [
+		{
+			"name": "5 Commands",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"commands\": [\"50m\", \"Left\", \"23m\", \"Left\", \"4m\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{projectUrl}}/moveRover",
+					"host": [
+						"{{projectUrl}}"
+					],
+					"path": [
+						"moveRover"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Out of Bounds Left",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"commands\": [\"1000m\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{projectUrl}}/moveRover",
+					"host": [
+						"{{projectUrl}}"
+					],
+					"path": [
+						"moveRover"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
