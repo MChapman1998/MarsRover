@@ -7,7 +7,20 @@
 	},
 	"item": [
 		{
-			"name": "5 Commands",
+			"name": "Default Commands from Spec",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -33,13 +46,260 @@
 			"response": []
 		},
 		{
+			"name": "Invalid parameter",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"  pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"commands\": [\"50m\", \"Left\", \"23\", \"Left\", \"4m\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{projectUrl}}/moveRover",
+					"host": [
+						"{{projectUrl}}"
+					],
+					"path": [
+						"moveRover"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Out of Bounds Left",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"commands\": [\"Right\", \"1000m\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{projectUrl}}/moveRover",
+					"host": [
+						"{{projectUrl}}"
+					],
+					"path": [
+						"moveRover"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Out of Bounds Right",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"commands\": [\"Left\", \"1000m\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{projectUrl}}/moveRover",
+					"host": [
+						"{{projectUrl}}"
+					],
+					"path": [
+						"moveRover"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Out of Bounds Bottom",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"commands\": [\"1000m\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{projectUrl}}/moveRover",
+					"host": [
+						"{{projectUrl}}"
+					],
+					"path": [
+						"moveRover"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Out of Bounds Top",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"commands\": [\"Right\", \"Right\", \"1000m\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{projectUrl}}/moveRover",
+					"host": [
+						"{{projectUrl}}"
+					],
+					"path": [
+						"moveRover"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "No commands passed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"commands\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{projectUrl}}/moveRover",
+					"host": [
+						"{{projectUrl}}"
+					],
+					"path": [
+						"moveRover"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "More than 5 commands passed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"  pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"commands\": [\"Right\", \"Right\", \"Right\", \"Left\", \"Right\", \"Right\", \"Right\", \"100m\"]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
